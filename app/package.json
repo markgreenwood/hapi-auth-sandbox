@@ -1,0 +1,23 @@
+{
+  "name": "hapi-auth-sandbox",
+  "version": "1.0.0",
+  "description": "Playground for working with hapi authentication/authorization",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markgreenwood/hapi-auth-sandbox.git"
+  },
+  "author": "Mark Greenwood",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/markgreenwood/hapi-auth-sandbox/issues"
+  },
+  "homepage": "https://github.com/markgreenwood/hapi-auth-sandbox#readme",
+  "dependencies": {
+    "hapi": "^16.5.2",
+    "hapi-auth-basic": "^4.2.0"
+  }
+}
