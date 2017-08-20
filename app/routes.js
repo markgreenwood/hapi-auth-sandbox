@@ -69,5 +69,16 @@ module.exports = [
         return reply(request.auth);
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/logout',
+    config: {
+      auth: false,
+      handler: (request, reply) => {
+        request.cookieAuth.clear();
+        return reply.redirect('/login');
+      }
+    }
   }
 ];
