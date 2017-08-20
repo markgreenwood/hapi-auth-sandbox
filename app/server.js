@@ -10,13 +10,16 @@ server.register([
   { register: Blipp, options: { showAuth: true } }
 ], (err) => {
   const basicConfig = {
-    validateFunc: function (request, username, password, callback) {
+    validateFunc: (request, username, password, callback) => {
       if (username !== 'admin' || password !== 'password') {
         return callback(null, false);
       }
       return callback(null, true, { username: 'admin' });
     }
   };
+  if (err) {
+    throw err;
+  }
   server.auth.strategy('simple', 'basic', basicConfig);
   server.auth.default('simple');
   server.route(routes);
