@@ -57,7 +57,13 @@ module.exports = [
         mode: 'try'
       },
       handler: (request, reply) => {
-        return reply(request.auth);
+        let pageHtml = `
+        <h1>Public Route</h1>
+        <h3>${request.auth.credentials ? 
+          'Logged in as ' + request.auth.credentials.username : 
+          'Not logged in'}</h3>`;
+
+        return reply(pageHtml);
       }
     }
   },
@@ -66,7 +72,11 @@ module.exports = [
     path: '/private',
     config: {
       handler: (request, reply) => {
-        return reply(request.auth);
+        let pageHtml = `
+        <h1>Private Route</h1>
+        <h3>Logged in as ${request.auth.credentials.username}</h3>`;
+
+        return reply(pageHtml);
       }
     }
   },
