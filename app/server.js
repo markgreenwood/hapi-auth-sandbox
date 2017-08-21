@@ -16,9 +16,10 @@ server.register([
     'session',
     'cookie',
     {
-      cookie: 'example',
+      cookie: 'appAuth',
       password: 'oksothispasswordneedstobebiggeratleast32characters',
       isSecure: false,
+      ttl: 120000, // 2 min time-to-live, i.e. cookie expiration
       redirectTo: '/login',
       redirectOnTry: false
     }
