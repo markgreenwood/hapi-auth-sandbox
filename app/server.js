@@ -26,5 +26,10 @@ server.register([
   );
   server.auth.default('session');
   server.route(routes);
-  server.start(() => {});
+  server.start((err) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`Starting server on ${server.info.host}:${server.info.port}`);
+  });
 });
