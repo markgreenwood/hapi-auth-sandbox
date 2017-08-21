@@ -34,8 +34,11 @@ module.exports = [
         mode: 'try'
       },
       handler: (request, reply) => {
-        if (request.payload.username !== 'admin' ||
-          request.payload.password !== 'password') {
+        const userdb = [
+          'admin:password',
+          'mark:multipass'
+        ];
+        if (!userdb.includes(`${request.payload.username}:${request.payload.password}`)) {
           console.log('Login failed');
           request.cookieAuth.clear();
           return reply.redirect('/login?login=failed');
@@ -61,7 +64,8 @@ module.exports = [
         <h1>Public Route</h1>
         <h3>${request.auth.credentials ? 
           'Logged in as ' + request.auth.credentials.username : 
-          'Not logged in'}</h3>`;
+          'Not logged in'}</h3>
+        <a href="/logout">Log out</a>`;
 
         return reply(pageHtml);
       }
@@ -74,7 +78,8 @@ module.exports = [
       handler: (request, reply) => {
         let pageHtml = `
         <h1>Private Route</h1>
-        <h3>Logged in as ${request.auth.credentials.username}</h3>`;
+        <h3>Logged in as ${request.auth.credentials.username}</h3>
+        <a href="/logout">Log out</a>`;
 
         return reply(pageHtml);
       }
