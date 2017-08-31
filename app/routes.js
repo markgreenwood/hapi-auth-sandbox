@@ -3,47 +3,15 @@ module.exports = [
     method: 'GET',
     path: '/login',
     config: {
-      auth: {
-        mode: 'try'
-      },
+      auth: 'twitter',
       handler: (request, reply) => {
-        if (request.auth.isAuthenticated === true) {
-          return reply.redirect('/private');
+        if (!request.auth.isAuthenticated) {
+          request.auth.session.clear();
+          return reply('Login failed...');
         }
-        let loginForm = `
-          <form method="post" action="/login">
-            Username: <input type="text" name="username" />
-            <br>
-            Password: <input type="password" name="password" />
-            <br>
-            <input type="submit" value="Login" />
-          </form>
-        `;
-        if (request.query.login === 'failed') {
-          loginForm += '<h3>Previous login attempt failed</h3>';
-        }
-        return reply(loginForm);
-      }
-    }
-  },
-  {
-    method: 'POST',
-    path: '/login',
-    config: {
-      auth: {
-        mode: 'try'
-      },
-      handler: (request, reply) => {
-        if (request.payload.username !== 'admin' ||
-          request.payload.password !== 'password') {
-          console.log('Login failed');
-          request.cookieAuth.clear();
-          return reply.redirect('/login?login=failed');
-        }
-        console.log('Login successful');
-        request.cookieAuth.set({
-          username: request.payload.username,
-          lastLogin: new Date()
+
+        request.auth.session.set({
+          username: request.auth.credentials.profile.username
         });
         return reply.redirect('/private');
       }
@@ -51,33 +19,11 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/public',
-    config: {
-      auth: {
-        mode: 'try'
-      },
-      handler: (request, reply) => {
-        return reply(request.auth);
-      }
-    }
-  },
-  {
-    method: 'GET',
     path: '/private',
     config: {
+      auth: 'session',
       handler: (request, reply) => {
         return reply(request.auth);
-      }
-    }
-  },
-  {
-    method: 'GET',
-    path: '/logout',
-    config: {
-      auth: false,
-      handler: (request, reply) => {
-        request.cookieAuth.clear();
-        return reply.redirect('/login');
       }
     }
   }

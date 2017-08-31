@@ -1,12 +1,14 @@
 const Hapi = require('hapi');
 const Cookie = require('hapi-auth-cookie');
+const Bell = require('bell');
 const Blipp = require('blipp');
 const routes = require('./routes');
 
 const server = new Hapi.Server();
-server.connection({ port: 9000 });
+server.connection({ port: 9000, host: '127.0.0.1' });
 server.register([
   Cookie,
+  Bell,
   { register: Blipp, options: { showAuth: true } }
 ], (err) => {
   if (err) {
@@ -23,7 +25,19 @@ server.register([
       redirectOnTry: false
     }
   );
-  server.auth.default('session');
+  // Acquire the clientId and clientSecret by creating a
+  // Twitter application at https://apps.twitter.com/app/new
+  server.auth.strategy(
+    'twitter',
+    'bell',
+    {
+      provider: 'twitter',
+      password: 'cookie_encryption_password',
+      clientId: 'Yf3Aqjlrsn5EJ8N4G36ubVE7B',
+      clientSecret: 'DYQ64DokvR73YAR4VIWaDBiHPQCSkl3m7sr2JiglyiECV6so0G',
+      isSecure: false
+    }
+  );
   server.route(routes);
   server.start(() => {});
 });
