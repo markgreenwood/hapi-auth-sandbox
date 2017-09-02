@@ -33,7 +33,12 @@ module.exports = [
     config: {
       auth: 'session',
       handler: (request, reply) => {
-        return reply(request.auth);
+        let pageHtml = `
+        <h1>Private Route</h1>
+        <h3>Logged in as ${request.auth.credentials.username}</h3>
+        <a href="/logout">Log out</a>`;
+
+        return reply(pageHtml);
       }
     }
   }

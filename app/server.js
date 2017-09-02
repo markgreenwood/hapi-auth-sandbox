@@ -18,7 +18,7 @@ server.register([
     'session',
     'cookie',
     {
-      cookie: 'example',
+      cookie: 'appAuth',
       password: 'oksothispasswordneedstobebiggeratleast32characters',
       isSecure: true,
       redirectTo: '/login',
@@ -39,5 +39,10 @@ server.register([
     }
   );
   server.route(routes);
-  server.start(() => {});
+  server.start((err) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`Starting server on ${server.info.host}:${server.info.port}`);
+  });
 });
