@@ -1,19 +1,29 @@
 module.exports = [
   {
-    method: 'GET',
+    method: ['GET', 'POST'],
     path: '/login',
     config: {
       auth: 'twitter',
       handler: (request, reply) => {
         if (!request.auth.isAuthenticated) {
-          request.auth.session.clear();
+          request.cookieAuth.clear();
           return reply('Login failed...');
         }
 
-        request.auth.session.set({
+        request.cookieAuth.set({
           username: request.auth.credentials.profile.username
         });
         return reply.redirect('/private');
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/public',
+    config: {
+      auth: false,
+      handler: (request, reply) => {
+        return reply({ statusCode: 200, message: 'OK' });
       }
     }
   },

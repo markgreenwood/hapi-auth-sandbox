@@ -20,7 +20,7 @@ server.register([
     {
       cookie: 'example',
       password: 'oksothispasswordneedstobebiggeratleast32characters',
-      isSecure: false,
+      isSecure: true,
       redirectTo: '/login',
       redirectOnTry: false
     }
@@ -32,10 +32,10 @@ server.register([
     'bell',
     {
       provider: 'twitter',
-      password: 'cookie_encryption_password',
+      password: 'oksothispasswordneedstobebiggeratleast32characterstoo',
       clientId: 'Yf3Aqjlrsn5EJ8N4G36ubVE7B',
       clientSecret: 'DYQ64DokvR73YAR4VIWaDBiHPQCSkl3m7sr2JiglyiECV6so0G',
-      isSecure: false
+      isSecure: true
     }
   );
   server.route(routes);
